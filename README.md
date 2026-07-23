@@ -1,3 +1,4 @@
+README.md
 🚀 AWS CI/CD Pipeline with Automated Deployment
 End-to-end CI/CD pipeline integrating GitHub with AWS CodePipeline, CodeBuild, and Elastic Beanstalk — featuring automated build validation, auto-provisioning, and real-time failure alerting via CloudWatch & SNS.
 📸 Screenshots
