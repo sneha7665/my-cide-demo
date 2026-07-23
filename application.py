@@ -7,7 +7,7 @@ HTML = """
 <html>
 <head><title>My CI/CD App</title></head>
 <body>
-    <h1>Hello from Elastic Beanstalk! Test Successfull! Thanks!</h1>
+    <h1>Hello auto-trigger test! Thanks!</h1>
     <p>This was deployed automatically via CodePipeline</p>
 </body>
 </html>
