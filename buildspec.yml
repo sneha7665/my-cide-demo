@@ -5,10 +5,13 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      - echo "Installing..."
+      - pip install -r requirements.txt
   build:
     commands:
-      - echo "Build started"
+      - echo "Validating code..."
+      - python -m py_compile application.py
+      - python -c "from application import application"
+      - echo "Build passed!"
   post_build:
     commands:
       - echo "Build completed"
