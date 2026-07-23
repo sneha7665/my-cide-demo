@@ -1,1 +1,1 @@
-# my-cide-demo
+# my-cicd-demo
