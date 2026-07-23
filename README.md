@@ -31,7 +31,7 @@ The project eliminates manual deployment steps while improving deployment speed,
 - Deploy stages
 
 
-images/codepipeline-success.jpeg
+
 <img width="1600" height="661" alt="codepipeline-success" src="https://github.com/user-attachments/assets/bb9ea842-5ced-4913-a8cd-d188833287c0" />
 
 
@@ -42,8 +42,8 @@ images/codepipeline-success.jpeg
 Running Flask application
 
 
-images/elastic-beanstalk-app.jpeg
----<img width="1600" height="848" alt="elastic-beanstalk-app" src="https://github.com/user-attachments/assets/7a1391e2-011c-49f2-9b98-6fd9cb1dbff7" />
+
+<img width="1600" height="848" alt="elastic-beanstalk-app" src="https://github.com/user-attachments/assets/7a1391e2-011c-49f2-9b98-6fd9cb1dbff7" />
 
 
 ## 3️⃣ CloudWatch Alarm
@@ -51,7 +51,7 @@ images/elastic-beanstalk-app.jpeg
 ExecutionFailed metric monitoring
 
 
-images/cloudwatch-alarm.jpeg<img width="1600" height="665" alt="cloudwatch-alarm" src="https://github.com/user-attachments/assets/7f8e7907-a5ee-4d9f-8935-aba75bfffed3" />
+<img width="1600" height="665" alt="cloudwatch-alarm" src="https://github.com/user-attachments/assets/7f8e7907-a5ee-4d9f-8935-aba75bfffed3" />
 
 
 
@@ -62,7 +62,7 @@ images/cloudwatch-alarm.jpeg<img width="1600" height="665" alt="cloudwatch-alarm
 Failure alert delivered via email
 
 
-images/sns-email-alert.jpeg<img width="1600" height="713" alt="sns-email-alert" src="https://github.com/user-attachments/assets/5f0da80b-95e4-4933-999a-6676eb91517f" />
+<img width="1600" height="713" alt="sns-email-alert" src="https://github.com/user-attachments/assets/5f0da80b-95e4-4933-999a-6676eb91517f" />
 
 
 
