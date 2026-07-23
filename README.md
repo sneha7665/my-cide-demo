@@ -31,7 +31,7 @@ The project eliminates manual deployment steps while improving deployment speed,
 - Deploy stages
 
 ```
-images/codepipeline-success.png
+images/codepipeline-success.jpeg
 ```
 
 ---
@@ -41,7 +41,7 @@ images/codepipeline-success.png
 Running Flask application
 
 ```
-images/elastic-beanstalk-app.png
+images/elastic-beanstalk-app.jpeg
 ```
 
 ---
@@ -51,7 +51,7 @@ images/elastic-beanstalk-app.png
 ExecutionFailed metric monitoring
 
 ```
-images/cloudwatch-alarm.png
+images/cloudwatch-alarm.jpeg
 ```
 
 ---
@@ -61,7 +61,7 @@ images/cloudwatch-alarm.png
 Failure alert delivered via email
 
 ```
-images/sns-email-alert.png
+images/sns-email-alert.jpeg
 ```
 
 ---
