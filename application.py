@@ -1,6 +1,4 @@
 from flask import Flask, render_template_string
-bvtyccgrxhjf
-application = Flask(__name__)
 
 HTML = """
 <!DOCTYPE html>
