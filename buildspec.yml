@@ -3,20 +3,16 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 18
+      python: 3.12
     commands:
-      - echo "Installing dependencies..."
+      - echo "Installing..."
   build:
     commands:
-      - echo "Build started on $(date)"
-      - echo "Compiling the application..."
-      - mkdir -p dist
-      - cp index.html dist/
+      - echo "Build started"
   post_build:
     commands:
-      - echo "Build completed on $(date)"
+      - echo "Build completed"
 
 artifacts:
   files:
     - '**/*'
-  base-directory: dist
