@@ -1,185 +1,354 @@
-README.md
-🚀 AWS CI/CD Pipeline with Automated Deployment
-End-to-end CI/CD pipeline integrating GitHub with AWS CodePipeline, CodeBuild, and Elastic Beanstalk — featuring automated build validation, auto-provisioning, and real-time failure alerting via CloudWatch & SNS.
-📸 Screenshots
-1. CodePipeline — Successful Deployment
+# 🚀 AWS CI/CD Pipeline with Automated Deployment
 
-All stages green: Source → Build → Deploy
-2. Elastic Beanstalk — Live Application
+> An end-to-end CI/CD pipeline integrating **GitHub**, **AWS CodePipeline**, **AWS CodeBuild**, and **AWS Elastic Beanstalk** to automate application deployment with build validation, monitoring, and real-time email alerts using **Amazon CloudWatch** and **Amazon SNS**.
 
-Flask app running on Elastic Beanstalk with auto-provisioned EC2
-3. CloudWatch Alarm — Failure Detection
+---
 
-Alarm monitoring pipeline ExecutionFailed metric
-4. SNS Email Alert — Real-time Notification
+## 📌 Overview
 
-Email alert received within 2 minutes of pipeline failure
-🏗️ Architecture
-plain
-┌─────────────┐     ┌─────────────────┐     ┌─────────────┐     ┌──────────────────┐
-│   GitHub    │────▶│  AWS CodePipeline│────▶│  CodeBuild  │────▶│ Elastic Beanstalk│
-│   (main)    │     │  (Orchestrator)  │     │ (Build &    │     │ (Deploy +        │
-└─────────────┘     └─────────────────┘     │  Validate)  │     │  Auto-Provision) │
-       │                   │                 └─────────────┘     └──────────────────┘
-       │                   │                        │                    │
-       │                   │                        │                    │
-       │            ┌──────▼──────┐                │                    │
-       │            │ CloudWatch  │◄───────────────┘                    │
-       │            │  (Monitor)  │                                     │
-       │            └──────┬──────┘                                     │
-       │                   │                                            │
-       │            ┌──────▼──────┐                                     │
-       └───────────▶│    SNS      │                                     │
-                    │  (Alert)    │                                     │
-                    └─────────────┘                                     │
-                                                                        │
-                                                                        ▼
-                                                              ┌─────────────────┐
-                                                              │   t2.micro EC2  │
-                                                              │  (Auto-Scaled)  │
-                                                              └─────────────────┘
-📋 Pipeline Flow
-Table
-Stage	Service	What Happens
-1. Source	GitHub (via CodeConnections)	Detects push to main branch, triggers pipeline automatically
-2. Build	AWS CodeBuild	Installs dependencies, validates Python syntax, imports application, packages artifacts
-3. Deploy	Elastic Beanstalk	Deploys Flask app, auto-provisions EC2 instance, starts Gunicorn + Nginx
-4. Monitor	CloudWatch + SNS	Tracks ExecutionFailed metric, sends email alert on failure
-🛠️ Tech Stack
-Table
-Category	Technology
-Source Control	GitHub
-CI/CD Orchestration	AWS CodePipeline
-Build Service	AWS CodeBuild
-Compute Platform	AWS Elastic Beanstalk (Python 3.12)
-Web Framework	Flask
-WSGI Server	Gunicorn
-Reverse Proxy	Nginx (managed by EB)
-Monitoring	Amazon CloudWatch
-Alerting	Amazon SNS (Email)
-IAM	AWS IAM Roles & Policies
-📁 Project Structure
-plain
-my-cicd-demo/
-├── application.py          # Flask application
-├── requirements.txt        # Python dependencies (Flask, Gunicorn)
-├── Procfile               # EB process definition (web: gunicorn...)
-├── buildspec.yml          # CodeBuild instructions
-└── README.md              # This file
-📄 File Details
-application.py
-Flask web application serving HTML content.
-requirements.txt
-plain
-flask==3.0.0
-gunicorn==21.2.0
-Procfile
-plain
-web: gunicorn --bind 0.0.0.0:8000 application:application
-buildspec.yml
-yaml
-version: 0.2
+This project demonstrates a production-style Continuous Integration and Continuous Deployment (CI/CD) pipeline on AWS.
 
-phases:
-  install:
-    runtime-versions:
-      python: 3.12
-    commands:
-      - pip install -r requirements.txt
-  build:
-    commands:
-      - echo "Validating code..."
-      - python -m py_compile application.py
-      - python -c "from application import application"
-      - echo "Build passed!"
-  post_build:
-    commands:
-      - echo "Build completed on $(date)"
+Whenever code is pushed to the **main** branch, the pipeline automatically:
 
-artifacts:
-  files:
-    - '**/*'
-⚡ Key Features
-1. Automated Trigger
-Push code to GitHub main branch → Pipeline starts automatically within 10-20 seconds
-No manual intervention required
-2. Build Validation
-buildspec.yml validates code before deployment:
-python -m py_compile application.py — syntax check
-python -c "from application import application" — import check
-Broken code never reaches production
-3. Auto-Provisioning
-Elastic Beanstalk automatically provisions EC2 instances
-No manual server setup or configuration
-4. Failure Detection & Alerting
-CloudWatch alarm monitors ExecutionFailed metric
-SNS sends email alert within 2 minutes of failure
-Improves Mean Time To Detect (MTTD)
-🚀 How to Deploy
-Prerequisites
-AWS Account (Free Tier eligible)
-GitHub Account
-Step 1: Create Elastic Beanstalk Environment
-AWS Console → Elastic Beanstalk → Create Application
-Platform: Python 3.12
-Environment type: Single instance
-Instance type: t2.micro (Free Tier)
-Step 2: Create CodeBuild Project
-AWS Console → CodeBuild → Create project
-Source: GitHub (connect via CodeConnections)
-Buildspec: Use buildspec.yml from repo
-Step 3: Create CodePipeline
-AWS Console → CodePipeline → Create pipeline
-Source: GitHub (Version 2)
-Build: CodeBuild project
-Deploy: Elastic Beanstalk environment
-Step 4: Configure CloudWatch + SNS
-CloudWatch → Alarms → Create alarm
-Metric: CodePipeline ExecutionFailed
-Action: Send notification to SNS topic
-SNS: Create email subscription
-🧪 Testing the Pipeline
-Test 1: Successful Deployment
-bash
-# Edit application.py and push
+- Detects source code changes
+- Builds and validates the application
+- Deploys the application to AWS Elastic Beanstalk
+- Monitors deployment failures
+- Sends real-time email notifications if the pipeline fails
+
+The project eliminates manual deployment steps while improving deployment speed, reliability, and monitoring.
+
+---
+
+# 📸 Project Screenshots
+
+> Replace the images below with screenshots from your project.
+
+## 1️⃣ AWS CodePipeline
+
+- Successful Source
+- Build
+- Deploy stages
+
+```
+images/codepipeline-success.png
+```
+
+---
+
+## 2️⃣ Elastic Beanstalk Application
+
+Running Flask application
+
+```
+images/elastic-beanstalk-app.png
+```
+
+---
+
+## 3️⃣ CloudWatch Alarm
+
+ExecutionFailed metric monitoring
+
+```
+images/cloudwatch-alarm.png
+```
+
+---
+
+## 4️⃣ SNS Email Notification
+
+Failure alert delivered via email
+
+```
+images/sns-email-alert.png
+```
+
+---
+
+# 🏗 Architecture
+
+```text
+                    GitHub Repository
+                           │
+                           ▼
+                  AWS CodePipeline
+                           │
+          ┌────────────────┴────────────────┐
+          ▼                                 ▼
+   AWS CodeBuild                 Elastic Beanstalk
+(Build & Validation)         (Deployment Platform)
+                                          │
+                                          ▼
+                                     EC2 Instance
+                                          │
+                                          ▼
+                                  Flask Application
+
+                  ▲
+                  │
+          Amazon CloudWatch
+                  │
+                  ▼
+             Amazon SNS
+                  │
+                  ▼
+          Email Notifications
+```
+
+---
+
+# ⚙ Pipeline Workflow
+
+| Stage | AWS Service | Purpose |
+|--------|-------------|----------|
+| Source | GitHub + CodeConnections | Detects code changes automatically |
+| Build | AWS CodeBuild | Installs dependencies and validates code |
+| Deploy | Elastic Beanstalk | Deploys Flask application |
+| Monitor | CloudWatch | Monitors pipeline failures |
+| Alert | Amazon SNS | Sends email notifications |
+
+---
+
+# 🛠 Tech Stack
+
+| Category | Technology |
+|-----------|------------|
+| Programming Language | Python |
+| Framework | Flask |
+| Version Control | Git & GitHub |
+| CI/CD | AWS CodePipeline |
+| Build Service | AWS CodeBuild |
+| Deployment | AWS Elastic Beanstalk |
+| Compute | Amazon EC2 |
+| Web Server | Gunicorn |
+| Reverse Proxy | Nginx |
+| Monitoring | Amazon CloudWatch |
+| Notifications | Amazon SNS |
+| Identity & Access | AWS IAM |
+
+---
+
+# 📂 Project Structure
+
+```text
+aws-cicd-pipeline/
+│
+├── application.py
+├── requirements.txt
+├── buildspec.yml
+├── Procfile
+├── README.md
+└── images/
+    ├── codepipeline-success.png
+    ├── elastic-beanstalk-app.png
+    ├── cloudwatch-alarm.png
+    └── sns-email-alert.png
+```
+
+---
+
+# ✨ Features
+
+## ✅ Automated CI/CD
+
+- Automatically triggers on every push to the **main** branch.
+- No manual deployment required.
+
+---
+
+## ✅ Build Validation
+
+Before deployment, CodeBuild automatically:
+
+- Installs dependencies
+- Validates Python syntax
+- Imports the application
+- Stops deployment if validation fails
+
+Example:
+
+```bash
+python -m py_compile application.py
+
+python -c "from application import application"
+```
+
+---
+
+## ✅ Automated Deployment
+
+Elastic Beanstalk automatically:
+
+- Creates EC2 instances
+- Configures Gunicorn
+- Configures Nginx
+- Deploys the Flask application
+
+No manual server configuration is required.
+
+---
+
+## ✅ Monitoring
+
+Amazon CloudWatch continuously monitors:
+
+- Pipeline execution
+- Deployment status
+- Failure metrics
+
+---
+
+## ✅ Real-Time Alerts
+
+If deployment fails:
+
+CloudWatch →
+
+SNS →
+
+Email Notification
+
+Users receive deployment failure notifications within minutes.
+
+---
+
+# 🚀 Deployment Guide
+
+## Step 1 — Create Elastic Beanstalk
+
+- Create a Python environment
+- Platform: Python 3.x
+- Environment Type: Single Instance
+- Instance Type: t2.micro (Free Tier)
+
+---
+
+## Step 2 — Create CodeBuild Project
+
+Configure:
+
+- Source: GitHub
+- Buildspec: `buildspec.yml`
+
+---
+
+## Step 3 — Create CodePipeline
+
+Stages:
+
+```
+GitHub
+    ↓
+CodeBuild
+    ↓
+Elastic Beanstalk
+```
+
+---
+
+## Step 4 — Configure Monitoring
+
+Create:
+
+- CloudWatch Alarm
+- SNS Topic
+- Email Subscription
+
+---
+
+# 🧪 Testing
+
+## Successful Deployment
+
+```bash
 git add .
-git commit -m "Update homepage message"
+git commit -m "Updated application"
 git push origin main
+```
 
-# Pipeline auto-triggers and deploys
-Test 2: Failure Detection
-bash
-# Intentionally break the code (e.g., delete Flask import)
-git add .
-git commit -m "Test failure scenario"
+Pipeline automatically:
+
+- Detects commit
+- Builds application
+- Deploys application
+
+---
+
+## Failure Scenario
+
+Break the application intentionally:
+
+```python
+from flask import
+```
+
+Push:
+
+```bash
 git push origin main
+```
 
-# Build stage fails → CloudWatch alarm fires → Email alert sent
-📊 Results
-Table
-Metric	Before	After
-Deployment Time	Manual (~30 min)	Automated (~5 min)
-Failure Detection	Manual checking	Automatic (< 2 min)
-Server Management	Manual provisioning	Auto-provisioned by EB
-🎓 What I Learned
-AWS CodePipeline V2 with GitHub App integrations and webhook triggers
-IAM Policy Management — attaching least-privilege policies to service roles
-Elastic Beanstalk internals — Procfile, platform hooks, nginx proxy configuration
-CloudWatch Metrics — monitoring custom pipeline metrics and setting thresholds
-Troubleshooting — debugging 502 errors, port mismatches, and IAM permission issues
-🧹 Cleanup (Important!)
-To avoid AWS charges, terminate resources after demo:
-bash
-# Elastic Beanstalk
-AWS Console → Elastic Beanstalk → Your Environment → Actions → Terminate
+Result:
 
-# Optional: Delete other resources
-AWS Console → CodePipeline → Delete pipeline
-AWS Console → CodeBuild → Delete project
-AWS Console → CloudWatch → Delete alarm
-AWS Console → SNS → Delete topic
-Note: Only the Elastic Beanstalk environment (EC2 instance) incurs charges. All other services used are within AWS Free Tier limits.
-📬 Contact
-GitHub: @sneha7665
-Project Repo: sneha7665/my-cide-demo
-Built with ☕ and a lot of CloudWatch logs.
+- Build fails
+- CloudWatch Alarm triggers
+- SNS Email Notification is sent
+
+---
+
+# 📈 Results
+
+| Metric | Manual Process | Automated Pipeline |
+|---------|----------------|--------------------|
+| Deployment Time | ~30 Minutes | ~5 Minutes |
+| Build Validation | Manual | Automatic |
+| Deployment | Manual | Automatic |
+| Failure Detection | Manual | < 2 Minutes |
+| Notifications | None | Email Alerts |
+
+---
+
+# 📚 Key Learnings
+
+- AWS CodePipeline
+- AWS CodeBuild
+- AWS Elastic Beanstalk
+- Amazon EC2
+- Amazon CloudWatch
+- Amazon SNS
+- AWS IAM Roles & Policies
+- GitHub Integration
+- CI/CD Best Practices
+- Automated Deployment Strategies
+- Deployment Troubleshooting
+
+---
+
+# 💰 Cleanup
+
+To avoid unnecessary AWS charges:
+
+Delete:
+
+- Elastic Beanstalk Environment
+- CodePipeline
+- CodeBuild Project
+- CloudWatch Alarm
+- SNS Topic
+
+---
+
+# 👩‍💻 Author
+
+**Sneha Airodagi**
+
+- GitHub: https://github.com/sneha7665
+
+---
+
+# ⭐ If you found this project useful
+
+Please consider giving the repository a ⭐ on GitHub.
+
+It motivates me to build more cloud and DevOps projects.
