@@ -7,7 +7,7 @@ HTML = """
 <html>
 <head><title>My CI/CD App</title></head>
 <body>
-    <h1>Hello, this is auto-trigger test! Thanks!</h1>
+    <h1>Hello, Test passed !</h1>
     <p>This was deployed automatically via CodePipeline</p>
 </body>
 </html>
