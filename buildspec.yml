@@ -1,0 +1,22 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo "Installing dependencies..."
+  build:
+    commands:
+      - echo "Build started on $(date)"
+      - echo "Compiling the application..."
+      - mkdir -p dist
+      - cp index.html dist/
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist
